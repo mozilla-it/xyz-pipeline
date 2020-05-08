@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+behave = "*"
+mock = "==3.0.5"
+mockito = "==1.1.1"
+pytest = "==5.0.1"
+pytest-cov = "==2.7.1"
+pytest-mock = "==1.10.4"
+
+
+[requires]
+python_version = "3.7"
+
+[dev-packages]
+v = {editable = true,version = "*"}
