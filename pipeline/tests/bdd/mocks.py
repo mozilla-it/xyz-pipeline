@@ -1,4 +1,4 @@
-from pipeline.api.pipeline import PipelineTask, PipelineData
+from pipeline.api.orchestrate import PipelineTask, PipelineData
 
 
 class ExceptionTaskMock(PipelineTask):

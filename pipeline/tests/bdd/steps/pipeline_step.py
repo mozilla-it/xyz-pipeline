@@ -2,7 +2,7 @@ import unittest
 from behave import *
 
 from pipeline.api.exceptions import PipelineTaskException
-from pipeline.api.pipeline import Pipeline
+from pipeline.api.orchestrate import Pipeline
 # WE NEED THIS LINE. WE ARE LOADING MOCKS BY NAME.
 from pipeline.tests.bdd.mocks import *
 import importlib
