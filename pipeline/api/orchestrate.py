@@ -36,6 +36,10 @@ class Rule(ABC):
 
 
 class PipelineTask(ABC):
+    def __init__(self):
+        self.__and_rules: List[Rule] = list()
+        self.__or_rules: List[Rule] = list()
+
     @abstractmethod
     def execute(self, pipeline_data: PipelineData):
         """
@@ -44,16 +48,6 @@ class PipelineTask(ABC):
         :return:
         """
         pass
-
-
-class PipelineAndOrRuleTask(ABC):
-    """
-    ALL the AndRule's must pass and ANY of the OrRule's must pass.
-    """
-
-    def __init__(self):
-        self.__and_rules: List[Rule] = list()
-        self.__or_rules: List[Rule] = list()
 
     def add_and_rule(self, rule: Rule):
         self.__and_rules.append(rule)
@@ -90,15 +84,12 @@ class Pipeline:
         """
         for task in self.tasks:
             try:
-                if isinstance(task, PipelineAndOrRuleTask):
-                    if self.__run_rules(task):
-                        task.execute(pipeline_data=self.data)
-                else:
+                if self.__run_rules(task):
                     task.execute(pipeline_data=self.data)
             except Exception as e:
                 raise PipelineTaskException(e)
 
-    def __run_rules(self, task: PipelineAndOrRuleTask) -> bool:
+    def __run_rules(self, task: PipelineTask) -> bool:
         and_result: bool = True
         or_result: bool = False
 
