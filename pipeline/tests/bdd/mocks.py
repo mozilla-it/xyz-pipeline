@@ -1,4 +1,19 @@
-from pipeline.api.orchestrate import PipelineTask, PipelineData
+from pipeline.api.orchestrate import PipelineTask, PipelineData, PipelineAndOrRuleTask
+
+
+class OneAndOrTaskMock(PipelineAndOrRuleTask):
+    def execute(self, pipeline_data: PipelineData):
+        pipeline_data.add("one", True)
+
+
+class TwoAndOrTaskMock(PipelineAndOrRuleTask):
+    def execute(self, pipeline_data: PipelineData):
+        pipeline_data.add("two", True)
+
+
+class ThreeAndOrTaskMock(PipelineAndOrRuleTask):
+    def execute(self, pipeline_data: PipelineData):
+        pipeline_data.add("three", True)
 
 
 class ExceptionTaskMock(PipelineTask):
