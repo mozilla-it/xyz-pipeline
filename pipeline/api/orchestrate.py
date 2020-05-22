@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from pipeline.api.exceptions import PipelineTaskException
 
@@ -29,6 +29,12 @@ class PipelineData:
         return self.args[key]
 
 
+class Rule(ABC):
+    @abstractmethod
+    def execute(self, data: PipelineData) -> bool:
+        pass
+
+
 class PipelineTask(ABC):
     @abstractmethod
     def execute(self, pipeline_data: PipelineData):
@@ -38,6 +44,34 @@ class PipelineTask(ABC):
         :return:
         """
         pass
+
+
+class PipelineAndOrRuleTask(ABC):
+    """
+    ALL the AndRule's must pass and ANY of the OrRule's must pass.
+    """
+
+    def __init__(self):
+        self.__and_rules: List[Rule] = list()
+        self.__or_rules: List[Rule] = list()
+
+    def add_and_rule(self, rule: Rule):
+        self.__and_rules.append(rule)
+
+    def add_or_rule(self, rule: Rule):
+        self.__or_rules.append(rule)
+
+    def and_rules(self) -> List[Rule]:
+        """
+        :return: the rules
+        """
+        return self.__and_rules
+
+    def or_rules(self) -> List[Rule]:
+        """
+        :return: the rules
+        """
+        return self.__or_rules
 
 
 class Pipeline:
@@ -56,6 +90,31 @@ class Pipeline:
         """
         for task in self.tasks:
             try:
-                task.execute(pipeline_data=self.data)
+                if isinstance(task, PipelineAndOrRuleTask):
+                    if self.__run_rules(task):
+                        task.execute(pipeline_data=self.data)
+                else:
+                    task.execute(pipeline_data=self.data)
             except Exception as e:
                 raise PipelineTaskException(e)
+
+    def __run_rules(self, task: PipelineAndOrRuleTask) -> bool:
+        and_result: bool = True
+        or_result: bool = False
+
+        or_rules = task.or_rules()
+        if len(or_rules) == 0:
+            or_result = True
+        else:
+            for r in or_rules:
+                if r.execute(self.data):
+                    or_result = True
+                    break
+
+        and_rules = task.and_rules()
+        for r in and_rules:
+            if r.execute(self.data) is False:
+                and_result = False
+                break
+
+        return and_result and or_result
