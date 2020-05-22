@@ -72,7 +72,7 @@ Feature: Rules
   Scenario: All OR's pass and ALL AND's pass, all tasks execute
     Given tasks
       | name               | rules                                             |
-      | OneAndOrTaskMock   | AndPassRule, OrPassRule,AndPassRule               |
+      | OneAndOrTaskMock   | AndPassRule, OrPassRule, AndPassRule              |
       | TwoAndOrTaskMock   | AndPassRule, OrPassRule, OrPassRule, OrPassRule   |
       | ThreeAndOrTaskMock | AndPassRule, OrPassRule, AndPassRule, AndPassRule |
     When the pipeline runs
@@ -97,23 +97,23 @@ Feature: Rules
 
   Scenario: ALL OR's fail and ALL AND's pass, some tasks execute
     Given tasks
-      | name               | rules                                         |
-      | OneAndOrTaskMock   | OrDONTPassRule, OrDONTPassRule, AndPassRule                  |
-      | TwoAndOrTaskMock   | OrPassRule, OrDONTPassRule, AndPassRule                  |
-      | ThreeAndOrTaskMock   | OrPassRule, OrDONTPassRule, AndPassRule                  |
+      | name               | rules                                       |
+      | OneAndOrTaskMock   | OrDONTPassRule, OrDONTPassRule, AndPassRule |
+      | TwoAndOrTaskMock   | OrPassRule, OrDONTPassRule, AndPassRule     |
+      | ThreeAndOrTaskMock | OrPassRule, OrDONTPassRule, AndPassRule     |
     When the pipeline runs
     Then tasks execute
       | name  |
       | two   |
-      | three   |
+      | three |
 
   Scenario: ALL OR pass and some AND's fail, one tasks execute
     Given tasks
-      | name               | rules                                         |
-      | OneAndOrTaskMock   | OrPassRule,  AndDONTPassRule                  |
-      | TwoAndOrTaskMock   | OrPassRule, AndPassRule                  |
-      | ThreeAndOrTaskMock   | OrPassRule, AndDONTPassRule                  |
+      | name               | rules                        |
+      | OneAndOrTaskMock   | OrPassRule,  AndDONTPassRule |
+      | TwoAndOrTaskMock   | OrPassRule, AndPassRule      |
+      | ThreeAndOrTaskMock | OrPassRule, AndDONTPassRule  |
     When the pipeline runs
     Then tasks execute
-      | name  |
-      | two   |
+      | name |
+      | two  |

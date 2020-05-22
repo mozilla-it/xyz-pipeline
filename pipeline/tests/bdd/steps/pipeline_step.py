@@ -4,7 +4,7 @@ import unittest
 from behave import *
 
 from pipeline.api.exceptions import PipelineTaskException
-from pipeline.api.orchestrate import Pipeline, PipelineData, PipelineAndOrRuleTask
+from pipeline.api.orchestrate import Pipeline, PipelineData, PipelineTask
 
 # WE NEED THIS LINE. WE ARE LOADING MOCKS BY NAME.
 
@@ -14,7 +14,7 @@ data = PipelineData()
 class PipelineTest(unittest.TestCase):
 
     @staticmethod
-    def sort_out_rules(task: PipelineAndOrRuleTask, rules: str):
+    def sort_out_rules(task: PipelineTask, rules: str):
         _rules = rules.split(",")
         module_mocks_rules = importlib.import_module("mocks_rules")
         for rule in _rules:
