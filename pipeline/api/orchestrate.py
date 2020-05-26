@@ -36,9 +36,9 @@ class Rule(ABC):
 
 
 class PipelineTask(ABC):
-    def __init__(self, ands: List[Rule] = None, ors: List[Rule] = None):
-        self.__and_rules: List[Rule] = list() if ands is None else ands
-        self.__or_rules: List[Rule] = list() if ors is None else ors
+    def __init__(self):
+        self.__and_rules: List[Rule] = list()
+        self.__or_rules: List[Rule] = list()
 
     @abstractmethod
     def execute(self, pipeline_data: PipelineData):
@@ -51,9 +51,19 @@ class PipelineTask(ABC):
 
     def add_and_rule(self, rule: Rule):
         self.__and_rules.append(rule)
+        return self
 
     def add_or_rule(self, rule: Rule):
         self.__or_rules.append(rule)
+        return self
+
+    def add_and_rules(self, rules: List[Rule]):
+        self.__and_rules.extend(rules)
+        return self
+
+    def add_or_rules(self, rules: List[Rule]):
+        self.__or_rules.extend(rules)
+        return self
 
     def and_rules(self) -> List[Rule]:
         """

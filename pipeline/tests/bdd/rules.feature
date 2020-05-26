@@ -117,3 +117,32 @@ Feature: Rules
     Then tasks execute
       | name |
       | two  |
+
+
+  Scenario: We extend the list of tasks already initialized
+    Given tasks
+      | name             | rules                    |
+      | OneAndOrTaskMock | OrPassRule,  AndPassRule |
+    When we extend
+      | type | rules                            |
+      | ors  | OrPassRule,OrPassRule,OrPassRule |
+      | ands | AndPassRule,AndPassRule          |
+    Then verify proper extension
+      | type | rules                                       |
+      | ors  | OrPassRule,OrPassRule,OrPassRule,OrPassRule |
+      | ands | AndPassRule,AndPassRule,AndPassRule         |
+
+
+  Scenario: We extend the list of tasks
+    Given tasks
+      | name             | rules |
+      | OneAndOrTaskMock |       |
+    When we extend
+      | type | rules                            |
+      | ors  | OrPassRule,OrPassRule,OrPassRule |
+      | ands | AndPassRule,AndPassRule          |
+    Then verify proper extension
+      | type | rules                            |
+      | ors  | OrPassRule,OrPassRule,OrPassRule |
+      | ands | AndPassRule,AndPassRule          |
+

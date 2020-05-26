@@ -19,11 +19,11 @@ Feature: Pipeline API
       | name              |
       | OneTaskMock       |
       | ExceptionTaskMock |
-      | TwoTaskMock     |
+      | TwoTaskMock       |
     When the pipeline runs and throws exception
     Then tasks execute
-      | name  |
-      | one   |
+      | name |
+      | one  |
 
   Scenario: I implement a pipeline with Object values
     Given tasks
@@ -58,3 +58,5 @@ Feature: Pipeline API
       | one   |
       | two   |
       | three |
+
+

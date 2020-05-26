@@ -1,10 +1,11 @@
 import importlib
 import unittest
+from typing import List
 
 from behave import *
 
 from pipeline.api.exceptions import PipelineTaskException
-from pipeline.api.orchestrate import Pipeline, PipelineData, PipelineTask
+from pipeline.api.orchestrate import Pipeline, PipelineData, PipelineTask, Rule
 
 # WE NEED THIS LINE. WE ARE LOADING MOCKS BY NAME.
 
@@ -29,7 +30,7 @@ class PipelineTest(unittest.TestCase):
 
     @given("tasks")
     def tasks(self):
-        self.tasks = list()
+        self.tasks: List[PipelineTask] = list()
         module_mocks = importlib.import_module("mocks")
 
         for row in self.table:
@@ -73,3 +74,37 @@ class PipelineTest(unittest.TestCase):
     def step_impl(self):
         global data
         data = PipelineData()
+
+    @when("we extend")
+    def extend(self):
+        mocks_rules = importlib.import_module("mocks_rules")
+
+        ands: List[Rule] = list()
+        ors: List[Rule] = list()
+        for r in self.table:
+            classes = r["rules"].split(",")
+
+            if r["type"] == "ands":
+                for c in classes:
+                    class_ = getattr(mocks_rules, c)
+                    ands.append(class_())
+
+                self.tasks[0].add_and_rules(ands)
+            elif r["type"] == "ors":
+                for c in classes:
+                    class_ = getattr(mocks_rules, c)
+                    ors.append(class_())
+
+                self.tasks[0].add_or_rules(ors)
+
+    @then("verify proper extension")
+    def step_impl(self):
+        ands: List[Rule] = self.tasks[0].and_rules()
+        ors: List[Rule] = self.tasks[0].or_rules()
+
+        for r in self.table:
+            classes = r["rules"].split(",")
+            if r["type"] == "ands":
+                assert len(classes) == len(ands)
+            elif r["type"] == "ors":
+                assert len(classes) == len(ors)
