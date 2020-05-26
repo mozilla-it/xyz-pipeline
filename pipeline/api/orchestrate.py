@@ -69,7 +69,7 @@ class PipelineTask(ABC):
 
 
 class Pipeline:
-    def __init__(self, tasks: [PipelineTask], pipeline_data: PipelineData = PipelineData()):
+    def __init__(self, tasks: List[PipelineTask], pipeline_data: PipelineData = PipelineData()):
         """
         Initialize the pipeline.
         :param tasks: The list of tasks to execute.
