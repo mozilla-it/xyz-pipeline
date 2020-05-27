@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="xyz-pipeline",
+    name="cloudpipeline",
     version="0.0.1",
     description="Generic Pipeline Mechanism",
     python_requires=">=3.4",
