@@ -103,7 +103,7 @@ class Pipeline:
         and_result: bool = True
         or_result: bool = False
 
-        or_rules = task.or_rules()
+        or_rules: List[Rule] = task.or_rules()
         if len(or_rules) == 0:
             or_result = True
         else:
@@ -112,7 +112,7 @@ class Pipeline:
                     or_result = True
                     break
 
-        and_rules = task.and_rules()
+        and_rules: List[Rule] = task.and_rules()
         for r in and_rules:
             if r.execute(pipeline_data=self.data) is False:
                 and_result = False
