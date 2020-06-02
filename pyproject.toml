@@ -1,0 +1,69 @@
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry]
+name = "cloudpipeline"
+version = "0.1.0"
+description = "Generic Pipeline Mechanism"
+authors = [
+    "Adam Frank <afrank@mozilla.com>",
+    "Bryan Sieber <bsieber@mozilla.com>",
+    "Chris Valaas <cvalaas@mozilla.com>",
+    "Jorge Spiropulo <jspiropulo@mozilla.com>"
+]
+packages = [
+    { include = "pipeline" }
+]
+
+[[tool.poetry.source]]
+name = "mozilla-it"
+url = "https://dp2-prod.appspot.com/pypi"
+
+[tool.poetry.dependencies]
+python = ">3.6"
+tox = "*"
+
+
+[tool.poetry.dev-dependencies]
+pre-commit = "*"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+isolated_build = True
+envlist = py37
+
+[testenv]
+whitelist_externals =
+    poetry
+deps =
+    behave
+    mock
+commands =
+    poetry run behave pipeline/tests/bdd
+"""
+
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''

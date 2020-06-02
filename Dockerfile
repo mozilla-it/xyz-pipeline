@@ -1,7 +1,9 @@
 FROM python:3
-LABEL maintainer="Jorge Spiropulo jspiropulo@mozilla.com"
+
 COPY pipeline /workspace/pipeline
-COPY setup.py /workspace/
+COPY pyproject.toml /workspace/
 WORKDIR /workspace
-RUN pip3 install --upgrade --no-cache-dir .
-RUN behave pipeline/tests/bdd
+
+RUN pip install poetry
+RUN poetry install
+RUN poetry run tox
