@@ -22,11 +22,13 @@ url = "https://dp2-prod.appspot.com/pypi"
 
 [tool.poetry.dependencies]
 python = ">3.6"
-tox = "*"
-
 
 [tool.poetry.dev-dependencies]
 pre-commit = "*"
+behave = "*"
+mock = "*"
+tox = "*"
+
 
 [tool.tox]
 legacy_tox_ini = """
@@ -37,9 +39,6 @@ envlist = py37
 [testenv]
 whitelist_externals =
     poetry
-deps =
-    behave
-    mock
 commands =
     poetry run behave pipeline/tests/bdd
 """
