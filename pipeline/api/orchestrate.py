@@ -102,7 +102,9 @@ class Pipeline:
     def __run_rules(self, task: PipelineTask) -> bool:
         and_result: bool = True
         or_result: bool = False
-
+        if not task.or_rules() and not task.and_rules():
+            # This is likely the case when a child of PipelineTask doesn't call the super.
+            return True
         or_rules: List[Rule] = task.or_rules()
         if len(or_rules) == 0:
             or_result = True
