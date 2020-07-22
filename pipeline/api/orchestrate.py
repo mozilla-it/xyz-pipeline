@@ -1,3 +1,4 @@
+import traceback
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List
 
@@ -97,6 +98,7 @@ class Pipeline:
                 if self.__run_rules(task):
                     task.execute(pipeline_data=self.data)
             except Exception as e:
+                traceback.print_exc()
                 raise PipelineTaskException(e)
 
     def __run_rules(self, task: PipelineTask) -> bool:
