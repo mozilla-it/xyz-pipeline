@@ -1,6 +1,7 @@
 FROM python:3
 
-COPY pipeline pyproject.toml .coveragerc /workspace/
+COPY pipeline /workspace/pipeline
+COPY pyproject.toml .coveragerc /workspace/
 WORKDIR /workspace
 
 
