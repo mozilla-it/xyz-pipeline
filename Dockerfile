@@ -1,10 +1,9 @@
 FROM python:3
 
-COPY pipeline /workspace/pipeline
-COPY pyproject.toml /workspace/
+COPY pipeline pyproject.toml .coveragerc /workspace/pipeline
 WORKDIR /workspace
 
 
-RUN pip install .
-RUN pip install tox
-RUN tox
+RUN pip install . && \
+    pip install tox && \
+    tox
