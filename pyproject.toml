@@ -21,13 +21,14 @@ name = "mozilla-it"
 url = "https://dp2-prod.appspot.com/pypi"
 
 [tool.poetry.dependencies]
-python = ">=3.7"
+python = ">=3.7, <4"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "*"
 behave = "*"
 mock = "*"
 tox = "*"
+coverage = "^5.2"
 
 
 [tool.tox]
@@ -39,8 +40,12 @@ envlist = py37
 [testenv]
 deps =
     behave
+    coverage
 commands =
-    behave pipeline/tests/bdd
+    coverage run --branch -m behave pipeline/tests/bdd
+    coverage html
+    coverage xml
+    coverage report --show-missing --fail-under=95
 """
 
 
