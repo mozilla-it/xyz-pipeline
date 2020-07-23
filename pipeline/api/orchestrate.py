@@ -33,7 +33,7 @@ class PipelineData:
 class Rule(ABC):
     @abstractmethod
     def execute(self, pipeline_data: PipelineData) -> bool:
-        pass
+        pass # pragma: no cover
 
 
 class PipelineTask(ABC):
@@ -48,7 +48,7 @@ class PipelineTask(ABC):
         :param pipeline_data: The data that get's passed around from task to task. Only one instance per pipeline run.
         :return:
         """
-        pass
+        pass # pragma: no cover
 
     def add_and_rule(self, rule: Rule):
         self.__and_rules.append(rule)
