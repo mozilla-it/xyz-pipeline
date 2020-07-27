@@ -51,6 +51,11 @@ class ThreeTaskObjectMock(PipelineTask):
         pipeline_data.add("three-object", ThreeObjectValueMock())
 
 
+class AlertTaskObjectMock(PipelineTask):
+    def execute(self, pipeline_data: PipelineData):
+        pipeline_data.add_alert("alerting")
+
+
 class OneObjectValueMock:
     @staticmethod
     def get():

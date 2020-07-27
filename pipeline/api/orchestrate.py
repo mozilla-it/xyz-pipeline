@@ -10,7 +10,21 @@ class PipelineData:
         """
         The PipelineData Object is a share resource throughout the pipeline run.
         """
-        self.args: Dict[str, Any] = dict()
+        self.__values: Dict[str, Any] = dict()
+        self.__executed_tasks: List[str] = list()
+        self.__alerts: List[Any] = list()
+
+    def add_alert(self, alert: Any):
+        self.__alerts.append(alert)
+
+    def get_alerts(self) -> List[Any]:
+        return self.__alerts
+
+    def add_executed_task(self, task_name: str):
+        self.__executed_tasks.append(task_name)
+
+    def get_executed_tasks(self) -> List[str]:
+        return self.__executed_tasks
 
     def add(self, key: str, value: Any):
         """
@@ -19,7 +33,7 @@ class PipelineData:
         :param value: The value.
         :return:
         """
-        self.args[key] = value
+        self.__values[key] = value
 
     def get(self, key: str) -> Any:
         """
@@ -27,7 +41,7 @@ class PipelineData:
         :param key: The key for the value.
         :return:
         """
-        return self.args[key]
+        return self.__values[key]
 
 
 class Rule(ABC):
@@ -97,6 +111,7 @@ class Pipeline:
             try:
                 if self.__run_rules(task):
                     task.execute(pipeline_data=self.data)
+                    self.data.add_executed_task(type(task).__name__)
             except Exception as e:
                 traceback.print_exc()
                 raise PipelineTaskException(e)

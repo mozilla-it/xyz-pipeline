@@ -1,6 +1,9 @@
 # Created by jspiropulo at 5/8/20
 Feature: Pipeline API
 
+  Background:
+    Given clear executed tasks
+
   Scenario: I implement a pipeline with string values
     Given tasks
       | name          |
@@ -8,7 +11,7 @@ Feature: Pipeline API
       | TwoTaskMock   |
       | ThreeTaskMock |
     When the pipeline runs
-    Then tasks execute
+    Then tasks execute with bool values
       | name  |
       | one   |
       | two   |
@@ -21,7 +24,7 @@ Feature: Pipeline API
       | ExceptionTaskMock |
       | TwoTaskMock       |
     When the pipeline runs and throws exception
-    Then tasks execute
+    Then tasks execute with bool values
       | name |
       | one  |
 
@@ -53,10 +56,17 @@ Feature: Pipeline API
       | one-object   |
       | two-object   |
       | three-object |
-    Then tasks execute
+    Then tasks execute with bool values
       | name  |
       | one   |
       | two   |
       | three |
-
+    Then executed tasks report
+      | task_name           |
+      | OneTaskMock         |
+      | TwoTaskMock         |
+      | ThreeTaskMock       |
+      | OneTaskObjectMock   |
+      | TwoTaskObjectMock   |
+      | ThreeTaskObjectMock |
 
