@@ -11,7 +11,7 @@ Feature: Rules
       | TwoAndOrTaskMock   | AndPassRule                           |
       | ThreeAndOrTaskMock | AndPassRule, AndPassRule, AndPassRule |
     When the pipeline runs
-    Then tasks execute
+    Then tasks execute with bool values
       | name  |
       | one   |
       | two   |
@@ -24,7 +24,7 @@ Feature: Rules
       | TwoAndOrTaskMock   | AndPassRule                               |
       | ThreeAndOrTaskMock | AndPassRule, AndPassRule, AndDONTPassRule |
     When the pipeline runs
-    Then tasks execute
+    Then tasks execute with bool values
       | name |
       | two  |
 
@@ -36,7 +36,7 @@ Feature: Rules
       | TwoAndOrTaskMock   | OrPassRule                         |
       | ThreeAndOrTaskMock | OrPassRule, OrPassRule, OrPassRule |
     When the pipeline runs
-    Then tasks execute
+    Then tasks execute with bool values
       | name  |
       | one   |
       | two   |
@@ -50,7 +50,7 @@ Feature: Rules
       | TwoAndOrTaskMock   | OrDONTPassRule, OrPassRule                 |
       | ThreeAndOrTaskMock | OrDONTPassRule, OrDONTPassRule, OrPassRule |
     When the pipeline runs
-    Then tasks execute
+    Then tasks execute with bool values
       | name  |
       | one   |
       | two   |
@@ -63,7 +63,7 @@ Feature: Rules
       | TwoAndOrTaskMock   | OrDONTPassRule, OrDONTPassRule             |
       | ThreeAndOrTaskMock | OrDONTPassRule, OrDONTPassRule, OrPassRule |
     When the pipeline runs
-    Then tasks execute
+    Then tasks execute with bool values
       | name  |
       | one   |
       | three |
@@ -76,7 +76,7 @@ Feature: Rules
       | TwoAndOrTaskMock   | AndPassRule, OrPassRule, OrPassRule, OrPassRule   |
       | ThreeAndOrTaskMock | AndPassRule, OrPassRule, AndPassRule, AndPassRule |
     When the pipeline runs
-    Then tasks execute
+    Then tasks execute with bool values
       | name  |
       | one   |
       | two   |
@@ -89,7 +89,7 @@ Feature: Rules
       | TwoAndOrTaskMock   | OrPassRule, OrDONTPassRule, AndPassRule |
       | ThreeAndOrTaskMock | OrPassRule, OrDONTPassRule, AndPassRule |
     When the pipeline runs
-    Then tasks execute
+    Then tasks execute with bool values
       | name  |
       | one   |
       | two   |
@@ -102,7 +102,7 @@ Feature: Rules
       | TwoAndOrTaskMock   | OrPassRule, OrDONTPassRule, AndPassRule     |
       | ThreeAndOrTaskMock | OrPassRule, OrDONTPassRule, AndPassRule     |
     When the pipeline runs
-    Then tasks execute
+    Then tasks execute with bool values
       | name  |
       | two   |
       | three |
@@ -114,7 +114,7 @@ Feature: Rules
       | TwoAndOrTaskMock   | OrPassRule, AndPassRule      |
       | ThreeAndOrTaskMock | OrPassRule, AndDONTPassRule  |
     When the pipeline runs
-    Then tasks execute
+    Then tasks execute with bool values
       | name |
       | two  |
 

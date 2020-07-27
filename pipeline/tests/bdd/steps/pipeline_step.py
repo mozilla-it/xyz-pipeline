@@ -7,12 +7,9 @@ from behave import *
 from pipeline.api.exceptions import PipelineTaskException
 from pipeline.api.orchestrate import Pipeline, PipelineData, PipelineTask, Rule
 
-# WE NEED THIS LINE. WE ARE LOADING MOCKS BY NAME.
-
-data = PipelineData()
-
 
 class PipelineTest(unittest.TestCase):
+    data = PipelineData()
 
     @staticmethod
     def sort_out_rules(task: PipelineTask, rules: str):
@@ -48,23 +45,27 @@ class PipelineTest(unittest.TestCase):
 
     @when("the pipeline runs")
     def the_pipeline_runs(self):
-        Pipeline(tasks=self.tasks, pipeline_data=data).execute()
+        Pipeline(tasks=self.tasks, pipeline_data=PipelineTest.data).execute()
 
-    @then("tasks execute")
+    @then("tasks execute with bool values")
     def task_execute(self):
         for row in self.table:
-            assert data.get(row[0]) is True
+            assert PipelineTest.data.get(row[0]) is True
+
+    @then("tasks alert {msg}")
+    def task_execute(self, msg):
+        assert PipelineTest.data.get_alerts()[0] == msg
 
     @then("tasks execute with object values")
     def tasks_execute_with_object_values(self):
         for row in self.table:
-            assert data.get(row[0]).get() == row[0]
+            assert PipelineTest.data.get(row[0]).get() == row[0]
 
     @when("the pipeline runs and throws exception")
     def the_pipeline_runs_and_throws_exception(self):
         got_exception = False
         try:
-            Pipeline(tasks=self.tasks, pipeline_data=data).execute()
+            Pipeline(tasks=self.tasks, pipeline_data=PipelineTest.data).execute()
         except PipelineTaskException as e:
             got_exception = True
 
@@ -72,8 +73,7 @@ class PipelineTest(unittest.TestCase):
 
     @given("we reset pipeline data")
     def step_impl(self):
-        global data
-        data = PipelineData()
+        selfdata = PipelineData()
 
     @when("we extend")
     def extend(self):
@@ -108,3 +108,12 @@ class PipelineTest(unittest.TestCase):
                 assert len(classes) == len(ands)
             elif r["type"] == "ors":
                 assert len(classes) == len(ors)
+
+    @then("executed tasks report")
+    def executed_tasks_report(self):
+        for r in self.table:
+            assert r["task_name"] in PipelineTest.data.get_executed_tasks()
+
+    @given("clear executed tasks")
+    def step_impl(context):
+        PipelineTest.data = PipelineData()
