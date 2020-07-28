@@ -4,7 +4,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "cloudpipeline"
-version = "0.1.6"
+version = "0.1.7"
 description = "Generic Pipeline Mechanism"
 authors = [
     "Adam Frank <afrank@mozilla.com>",
@@ -45,7 +45,7 @@ commands =
     coverage run --branch -m behave pipeline/tests/bdd
     coverage html
     coverage xml
-    coverage report --show-missing --fail-under=95
+    coverage report --show-missing --fail-under=80
 """
 
 
