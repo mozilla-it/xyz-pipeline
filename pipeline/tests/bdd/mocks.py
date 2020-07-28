@@ -6,6 +6,26 @@ class OneAndOrTaskMock(PipelineTask):
         pipeline_data.add("one", True)
 
 
+class AddTaskMock(PipelineTask):
+    def __init__(self, key, value):
+        super().__init__()
+        self.key = key
+        self.value = value
+
+    def execute(self, pipeline_data: PipelineData):
+        pipeline_data.add(self.key, self.value)
+
+
+class UpdateTaskMock(PipelineTask):
+    def __init__(self, key, value):
+        super().__init__()
+        self.key = key
+        self.value = value
+
+    def execute(self, pipeline_data: PipelineData):
+        pipeline_data.update(self.key, self.value)
+
+
 class TwoAndOrTaskMock(PipelineTask):
     def execute(self, pipeline_data: PipelineData):
         pipeline_data.add("two", True)

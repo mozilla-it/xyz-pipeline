@@ -2,7 +2,8 @@ import traceback
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List
 
-from pipeline.api.exceptions import PipelineTaskException
+from pipeline.api.exceptions import PipelineTaskException, PipelineDataKeyExistsException, \
+    PipelineDataKeyDoesNotExistsException
 
 
 class PipelineData:
@@ -31,8 +32,23 @@ class PipelineData:
         Add a value to the PipelineData. This value can be used by any task in the pipeline.
         :param key: The key for the value.
         :param value: The value.
-        :return:
+        :raise: PipelineDataKeyExistsException
         """
+        if key in self.__values.keys():
+            raise PipelineDataKeyExistsException(f"Key {key} already exist.")
+
+        self.__values[key] = value
+
+    def update(self, key: str, value: Any):
+        """
+        Update a value to the PipelineData. This value can be used by any task in the pipeline.
+        :param key: The key for the value.
+        :param value: The value.
+        :raise: PipelineDataKeyDoesNotExistsException
+        """
+        if key not in self.__values.keys():
+            raise PipelineDataKeyDoesNotExistsException(f"Expected key {key} does not exist.")
+
         self.__values[key] = value
 
     def get(self, key: str) -> Any:
@@ -47,7 +63,7 @@ class PipelineData:
 class Rule(ABC):
     @abstractmethod
     def execute(self, pipeline_data: PipelineData) -> bool:
-        pass # pragma: no cover
+        pass  # pragma: no cover
 
 
 class PipelineTask(ABC):
@@ -62,7 +78,7 @@ class PipelineTask(ABC):
         :param pipeline_data: The data that get's passed around from task to task. Only one instance per pipeline run.
         :return:
         """
-        pass # pragma: no cover
+        pass  # pragma: no cover
 
     def add_and_rule(self, rule: Rule):
         self.__and_rules.append(rule)
