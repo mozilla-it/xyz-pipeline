@@ -57,6 +57,9 @@ class PipelineData:
         :param key: The key for the value.
         :return:
         """
+        if key not in self.__values.keys():
+            raise PipelineDataKeyDoesNotExistsException(f"Expected key {key} does not exist.")
+
         return self.__values[key]
 
 
