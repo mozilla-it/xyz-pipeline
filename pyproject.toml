@@ -4,7 +4,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "cloudpipeline"
-version = "0.1.5"
+version = "0.1.6"
 description = "Generic Pipeline Mechanism"
 authors = [
     "Adam Frank <afrank@mozilla.com>",
