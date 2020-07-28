@@ -4,6 +4,17 @@ Feature: Pipeline API
   Background:
     Given clear executed tasks
 
+  Scenario: update pipeline data value
+    Given tasks
+      | name           | key  | value |
+      | AddTaskMock    | key1 | Hello |
+      | UpdateTaskMock | key1 | Bye   |
+    When the pipeline runs
+    Then executed tasks report
+      | task_name      |
+      | AddTaskMock    |
+      | UpdateTaskMock |
+
   Scenario: I implement a pipeline with string values
     Given tasks
       | name          |

@@ -32,7 +32,12 @@ class PipelineTest(unittest.TestCase):
 
         for row in self.table:
             class_ = getattr(module_mocks, row["name"])
-            c = class_()
+            c = None
+
+            if "key" and "value" in row.headings:
+                c = class_(row["key"], row["value"])
+            else:
+                c = class_()
 
             try:
                 c.__and_rules = list()
@@ -73,7 +78,7 @@ class PipelineTest(unittest.TestCase):
 
     @given("we reset pipeline data")
     def step_impl(self):
-        selfdata = PipelineData()
+        PipelineTest.data = PipelineData()
 
     @when("we extend")
     def extend(self):
