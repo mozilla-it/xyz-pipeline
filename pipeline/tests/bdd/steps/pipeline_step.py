@@ -1,8 +1,7 @@
 import importlib
 import unittest
-from typing import List
-
 from behave import *
+from typing import List
 
 from pipeline.api.exceptions import PipelineTaskException
 from pipeline.api.orchestrate import Pipeline, PipelineData, PipelineTask, Rule
@@ -60,6 +59,10 @@ class PipelineTest(unittest.TestCase):
     @then("tasks alert {msg}")
     def task_execute(self, msg):
         assert PipelineTest.data.get_alerts()[0] == msg
+
+    @then("tasks archive {msg}")
+    def task_execute(self, msg):
+        assert PipelineTest.data.get_archives()[0] == msg
 
     @then("tasks execute with object values")
     def tasks_execute_with_object_values(self):

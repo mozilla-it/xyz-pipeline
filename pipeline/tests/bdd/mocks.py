@@ -75,6 +75,10 @@ class AlertTaskObjectMock(PipelineTask):
     def execute(self, pipeline_data: PipelineData):
         pipeline_data.add_alert("alerting")
 
+class ArchiveTaskObjectMock(PipelineTask):
+    def execute(self, pipeline_data: PipelineData):
+        pipeline_data.add_archive("archiving")
+
 
 class OneObjectValueMock:
     @staticmethod
