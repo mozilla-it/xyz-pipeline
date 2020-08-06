@@ -6,4 +6,4 @@ Feature: Pipeline archives
       | name                  |
       | ArchiveTaskObjectMock |
     When the pipeline runs
-    Then tasks alert alerting
+    Then tasks archive archiving
