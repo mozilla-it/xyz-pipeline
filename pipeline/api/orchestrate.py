@@ -14,12 +14,19 @@ class PipelineData:
         self.__values: Dict[str, Any] = dict()
         self.__executed_tasks: List[str] = list()
         self.__alerts: List[Any] = list()
+        self.__archives: List[Any] = list()
 
     def add_alert(self, alert: Any):
         self.__alerts.append(alert)
 
     def get_alerts(self) -> List[Any]:
         return self.__alerts
+
+    def add_archive(self, alert: Any):
+        self.__archives.append(alert)
+
+    def get_archives(self) -> List[Any]:
+        return self.__archives
 
     def add_executed_task(self, task_name: str):
         self.__executed_tasks.append(task_name)
