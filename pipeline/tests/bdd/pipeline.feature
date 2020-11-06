@@ -4,6 +4,26 @@ Feature: Pipeline API
   Background:
     Given clear executed tasks
 
+  Scenario: overwrite pipeline data value
+    Given tasks
+      | name                 | key  | value |
+      | AddTaskMock          | key1 | Hello |
+      | AddOverwriteTaskMock | key1 | Bye   |
+    When the pipeline runs
+    Then executed tasks report
+      | task_name            |
+      | AddTaskMock          |
+      | AddOverwriteTaskMock |
+
+  Scenario: add or overwrite pipeline data value
+    Given tasks
+      | name                 | key  | value |
+      | AddOverwriteTaskMock | key1 | Bye   |
+    When the pipeline runs
+    Then executed tasks report
+      | task_name            |
+      | AddOverwriteTaskMock |
+
   Scenario: update pipeline data value
     Given tasks
       | name           | key  | value |

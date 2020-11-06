@@ -34,14 +34,15 @@ class PipelineData:
     def get_executed_tasks(self) -> List[str]:
         return self.__executed_tasks
 
-    def add(self, key: str, value: Any):
+    def add(self, key: str, value: Any, overwrite=False):
         """
         Add a value to the PipelineData. This value can be used by any task in the pipeline.
         :param key: The key for the value.
         :param value: The value.
+        :param overwrite: if key exists, overwrite anyway
         :raise: PipelineDataKeyExistsException
         """
-        if key in self.__values.keys():
+        if key in self.__values.keys() and not overwrite:
             raise PipelineDataKeyExistsException(f"Key {key} already exist.")
 
         self.__values[key] = value
