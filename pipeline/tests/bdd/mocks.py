@@ -16,6 +16,16 @@ class AddTaskMock(PipelineTask):
         pipeline_data.add(self.key, self.value)
 
 
+class AddOverwriteTaskMock(PipelineTask):
+    def __init__(self, key, value):
+        super().__init__()
+        self.key = key
+        self.value = value
+
+    def execute(self, pipeline_data: PipelineData):
+        pipeline_data.add(self.key, self.value, overwrite=True)
+
+
 class UpdateTaskMock(PipelineTask):
     def __init__(self, key, value):
         super().__init__()
